@@ -7,7 +7,6 @@ const Persons = ({ personsToShow, setPersons, setMessage }) => {
 			phonebookService
 				.deletePerson(id)
 				.then((response) => {
-					console.log(response);
 					setPersons(personsToShow.filter((person) => person.id !== id));
 				})
 				.catch((error) => {

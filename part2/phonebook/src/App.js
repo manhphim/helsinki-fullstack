@@ -32,17 +32,19 @@ const App = () => {
 				phonebookService
 					.update(person.id, changedPerson)
 					.then((response) => {
-						console.log(response);
+						setMessage(() => ({
+							message: `Updated ${response.name}`,
+							type: 'success',
+						}));
+						setTimeout(() => {
+							setMessage(null);
+							console.log(message);
+						}, 5000);
 						setPersons(
 							persons.map((person) =>
 								person.id !== response.id ? person : response
 							)
 						);
-						setMessage(() => ({
-							message: `Updated ${response.name}`,
-							type: 'success',
-						}));
-						console.log(message.type, message.message);
 					})
 					.catch((error) => {
 						setMessage(() => ({
@@ -51,6 +53,7 @@ const App = () => {
 						}));
 						setTimeout(() => {
 							setMessage(null);
+							console.log(message);
 						}, 5000);
 						setPersons(
 							persons.filter((person) => person.id !== changedPerson.id)
@@ -74,11 +77,10 @@ const App = () => {
 					message: `Added ${response.name}`,
 					type: 'success',
 				});
-				console.log(message.type, message.message);
 			})
 			.catch((error) => {
 				setMessage({
-					message: 'error occured: ' + error,
+					message: 'error occured: ' + error.response.data.error,
 					type: 'error',
 				});
 
